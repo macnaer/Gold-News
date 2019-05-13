@@ -75,7 +75,7 @@ function GetCurrency(data) {
 
 function GetNews(data) {
   console.log(data.articles);
-  let sport = document.querySelector("#sports");
+  let sport = document.querySelector("#sport");
   for (let i = 0; i < 5; i++) {
     let h3 = document.createElement("h3");
     h3.className = "newsTitle";
