@@ -2,14 +2,25 @@ window.addEventListener("load", Init);
 
 function Init() {
   let url = "https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5";
-  let newsUrl =
-    "https://newsapi.org/v2/top-headlines?country=ua&category=sports&apiKey=18f1c87e444741aca30db0a569bba999";
+
   console.log("init");
+
+  const categoryArr = [
+    "sport",
+    "entertainment",
+    "health",
+    "science",
+    "technology"
+  ];
+
   Request(url, GetCurrency);
-  NewsRequest(newsUrl, GetNews);
+  for (let i = 0; i < categoryArr.length; i++) {
+    NewsRequest(categoryArr[i], GetNews);
+  }
 }
 
-function NewsRequest(url, callback) {
+function NewsRequest(category, callback) {
+  let url = `https://newsapi.org/v2/top-headlines?country=ua&category=${category}&apiKey=18f1c87e444741aca30db0a569bba999`;
   let xhr = new XMLHttpRequest();
   xhr.open("GET", url, true);
   xhr.send();
@@ -23,7 +34,7 @@ function NewsRequest(url, callback) {
       console.log(errStatus + ": " + errText);
     } else {
       var data = JSON.parse(xhr.responseText);
-      callback(data);
+      callback(category, data);
     }
   };
 }
@@ -73,9 +84,18 @@ function GetCurrency(data) {
   }
 }
 
-function GetNews(data) {
-  console.log(data.articles);
-  let sport = document.querySelector("#sports");
+function GetNews(category, data) {
+  if (category === "sport") {
+    var sport = document.querySelector("#sport");
+  } else if (category === "health") {
+    var sport = document.querySelector("#health");
+  } else if (category === "entertainment") {
+    var sport = document.querySelector("#entertainment");
+  } else if (category === "technology") {
+    var sport = document.querySelector("#technology");
+  } else if (category === "science") {
+    var sport = document.querySelector("#science");
+  }
   for (let i = 0; i < 5; i++) {
     let h3 = document.createElement("h3");
     h3.className = "newsTitle";
